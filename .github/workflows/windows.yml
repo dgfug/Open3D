@@ -34,6 +34,8 @@ env:
 
 jobs:
   windows:
+    permissions:
+      contents: read
     runs-on: windows-2019
     strategy:
       fail-fast: false
@@ -215,6 +217,8 @@ jobs:
         run: Get-PSDrive
 
   build-wheel:
+    permissions:
+      contents: read
     name: Build wheel
     runs-on: windows-2019
     strategy:
@@ -320,6 +324,8 @@ jobs:
           }
 
   test-wheel:
+    permissions:
+      contents: read
     name: Test wheel
     runs-on: windows-2019
     needs: [build-wheel]
@@ -387,6 +393,8 @@ jobs:
           deactivate
 
   ready-docs:
+    permissions:
+      contents: none
     name: Ready docs archive
     # no need to run on Windows
     runs-on: ubuntu-18.04
