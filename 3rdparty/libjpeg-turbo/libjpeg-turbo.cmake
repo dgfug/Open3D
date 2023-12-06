@@ -52,8 +52,9 @@ endif()
 ExternalProject_Add(
     ext_turbojpeg
     PREFIX turbojpeg
-    URL https://github.com/libjpeg-turbo/libjpeg-turbo/archive/refs/tags/2.0.6.tar.gz
-    URL_HASH SHA256=005aee2fcdca252cee42271f7f90574dda64ca6505d9f8b86ae61abc2b426371
+    URL
+    https://github.com/libjpeg-turbo/libjpeg-turbo/archive/refs/tags/2.1.5.1.tar.gz
+    URL_HASH SHA256=61846251941e5791005fb7face196eec24541fce04f12570c308557529e92c75
     DOWNLOAD_DIR "${OPEN3D_THIRD_PARTY_DOWNLOAD_DIR}/libjpeg-turbo"
     UPDATE_COMMAND ""
     CMAKE_ARGS
@@ -63,6 +64,12 @@ ExternalProject_Add(
         -DENABLE_SHARED=OFF
         -DWITH_SIMD=${WITH_SIMD}
         ${ExternalProject_CMAKE_ARGS_hidden}
+        # WARNING: libjpeg-turbo uses its own old version of
+        # GNUInstallDirs.cmake and leads to invalid installs with
+        # CMAKE_INSTALL_LIBDIR, so we undefine it and set
+        # CMAKE_INSTALL_DEFAULT_LIBDIR instead.
+        -UCMAKE_INSTALL_LIBDIR
+        -DCMAKE_INSTALL_DEFAULT_LIBDIR=${Open3D_INSTALL_LIB_DIR}
     BUILD_BYPRODUCTS
         <INSTALL_DIR>/${Open3D_INSTALL_LIB_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX}
 )
